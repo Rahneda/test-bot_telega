@@ -5,12 +5,13 @@ import (
 	"os"
 	"strings"
 
-	"github.com/joho/godotenv"
+	"telegram-bot/botHandlers"
+
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext/handlers"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext/handlers/filters/message"
-	"telegram-bot/botHandlers"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -44,16 +45,15 @@ func main() {
 	// Create updater
 	updater := ext.NewUpdater(dispatcher, nil)
 
-	// Add handler for 'hi' message
+	// Add handler for all messages
 	dispatcher.AddHandler(handlers.NewMessage(message.Text, func(b *gotgbot.Bot, ctx *ext.Context) error {
-		if strings.ToLower(ctx.EffectiveMessage.Text) == "hi" {
+		text := strings.ToLower(ctx.EffectiveMessage.Text)
+		if text == "hi" {
 			return botHandlers.WelcomeMessage(b, ctx)
 		}
-		return nil
+		// If not "hi", reverse the message
+		return botHandlers.ReverseMessage(b, ctx)
 	}))
-
-	// Add handler for all other messages
-	dispatcher.AddHandler(handlers.NewMessage(message.All, botHandlers.ReverseMessage))
 
 	// Start receiving updates
 	err = updater.StartPolling(bot, &ext.PollingOpts{
@@ -69,4 +69,4 @@ func main() {
 
 	// Keep the program running
 	updater.Idle()
-} 
+}
