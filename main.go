@@ -45,6 +45,9 @@ func main() {
 	// Create updater
 	updater := ext.NewUpdater(dispatcher, nil)
 
+	// Add handler for /story command
+	dispatcher.AddHandler(handlers.NewCommand("story", botHandlers.GenerateStory))
+
 	// Add handler for all messages
 	dispatcher.AddHandler(handlers.NewMessage(message.Text, func(b *gotgbot.Bot, ctx *ext.Context) error {
 		text := strings.ToLower(ctx.EffectiveMessage.Text)

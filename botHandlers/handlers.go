@@ -9,16 +9,16 @@ import (
 func ReverseMessage(b *gotgbot.Bot, ctx *ext.Context) error {
 	// Get the message text
 	text := ctx.EffectiveMessage.Text
-	
+
 	// Reverse the text
 	reversed := reverseString(text)
-	
+
 	// Send the reversed text back
 	_, err := ctx.EffectiveMessage.Reply(b, reversed, nil)
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
 }
 
@@ -29,7 +29,7 @@ func WelcomeMessage(b *gotgbot.Bot, ctx *ext.Context) error {
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
 }
 
@@ -40,4 +40,4 @@ func reverseString(s string) string {
 		runes[i], runes[j] = runes[j], runes[i]
 	}
 	return string(runes)
-} 
+}
